@@ -3,15 +3,19 @@ require_once "includes/proteger.php";
 require_once "includes/conexao.php";
 require_once "includes/cabecalho.php";
 
+// Verifica se o ID do item foi passado
 $id = $_GET['id'] ?? 0;
 $id_usuario = $_SESSION['id_usuario'];
 
+
+// Buscar o item específico
 $sql = "SELECT * FROM itens WHERE id = ? AND id_usuario = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $id, $id_usuario);
 $stmt->execute();
 $item = $stmt->get_result()->fetch_assoc();
 
+// Verifica se o item existe
 $categorias = $conn->query("SELECT * FROM categorias ORDER BY nome");
 
 if (!$item) {
@@ -64,6 +68,11 @@ if (!$item) {
         <div class="mb-3">
             <label class="form-label">Nova Capa (opcional)</label>
             <input type="file" name="capa" class="form-control">
+
+            <div class="card-body">
+                <a href="home.php" class="btn btn-danger btn-sm">Voltar</a>
+                </div>
+
         </div>
         <button type="submit" class="btn btn-primary">Atualizar</button>
     </form>

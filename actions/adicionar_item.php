@@ -11,9 +11,18 @@ $id_usuario = $_SESSION['id_usuario'];
 $capa_nome = '';
 
 // Upload da capa
-if (!empty($_FILES['capa']['name'])) {
-    $capa_nome = uniqid() . "_" . $_FILES['capa']['name'];
-    move_uploaded_file($_FILES['capa']['tmp_name'], "../uploads/" . $capa_nome);
+if (!empty($_FILES['capa']['name']) && $_FILES['capa']['error'] === UPLOAD_ERR_OK) {
+    $nome_original = basename($_FILES['capa']['name']);
+    $nome_sanitizado = preg_replace("/[^a-zA-Z0-9._-]/", "", $nome_original); // Remove caracteres especiais
+    $capa_nome = "uploads/" . uniqid() . "_" . $nome_sanitizado;
+
+    $caminho_destino = "../" . $capa_nome;
+
+    // Move o arquivo para a pasta uploads/
+    if (!move_uploaded_file($_FILES['capa']['tmp_name'], $caminho_destino)) {
+        echo "<script>alert('Erro ao fazer upload da imagem.'); history.back();</script>";
+        exit;
+    }
 }
 
 $sql = "INSERT INTO itens (titulo, autor, descricao, tipo, categoria_id, capa, id_usuario) 
@@ -24,6 +33,8 @@ $stmt->bind_param("ssssssi", $titulo, $autor, $descricao, $tipo, $categoria_id, 
 
 if ($stmt->execute()) {
     header("Location: ../home.php");
+    exit;
 } else {
     echo "<script>alert('Erro ao salvar item.'); history.back();</script>";
+    exit;
 }

@@ -64,6 +64,8 @@ if (isset($_GET['excluir'])) {
     echo "<script>alert('Categoria excluída com sucesso.'); window.location.href='index.php?page=categorias';</script>";
     exit();
 }
+
+//Obs: todas as operações de adicionar, editar e excluir categorias são feitas com prepared statements para evitar SQL Injection e garantir a segurança do banco de dados e já esão incluidas diretamente no código, sem necessidade de arquivos separados para cada ação.
 ?>
 
 <!DOCTYPE html>

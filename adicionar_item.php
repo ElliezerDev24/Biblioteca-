@@ -45,7 +45,7 @@ $categorias = $conn->query($sql);
             <select name="categoria_id" class="form-select" required>
                 <option value="">Selecione</option>
                 <?php while ($cat = $categorias->fetch_assoc()) { ?>
-                    <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['nome']) ?></option>
+                <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['nome']) ?></option> <!-- Exibe as categoriasdisponíveis -->
                 <?php } ?>
             </select>
         </div>
@@ -54,6 +54,7 @@ $categorias = $conn->query($sql);
             <input type="file" name="capa" class="form-control">
         </div>
         <button type="submit" class="btn btn-success">Salvar</button>
+        
     </form>
 </div>
 </body>

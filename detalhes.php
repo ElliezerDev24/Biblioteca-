@@ -3,14 +3,17 @@ require_once "includes/proteger.php";
 require_once "includes/conexao.php";
 require_once "includes/cabecalho.php";
 
+// Buscar o item específico
 $id = $_GET['id'] ?? 0;
 $id_usuario = $_SESSION['id_usuario'];
 
+// Verifica se o ID do item é válido
 $sql = "SELECT itens.*, categorias.nome AS categoria_nome 
         FROM itens 
         LEFT JOIN categorias ON itens.categoria_id = categorias.id 
         WHERE itens.id = ? AND itens.id_usuario = ?";
 
+// Prepara e executa a consulta
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $id, $id_usuario);
 $stmt->execute();
@@ -31,7 +34,7 @@ if (!$item) {
 </head>
 
 <div class="container mt-4">
-    <h2><?= htmlspecialchars($item['titulo']) ?></h2>
+    <h2><?= htmlspecialchars($item['titulo']) ?></h2><!-- Exibe o título do item -->
     <div class="row">
         <div class="col-md-4">
             <?php if (!empty($item['capa'])): ?>
