@@ -69,12 +69,10 @@ if (!$item) {
             <label class="form-label">Nova Capa (opcional)</label>
             <input type="file" name="capa" class="form-control">
 
-            <div class="card-body">
-                <a href="home.php" class="btn btn-danger btn-sm">Voltar</a>
-                </div>
-
         </div>
         <button type="submit" class="btn btn-primary">Atualizar</button>
+
+        <a class="btn btn-danger" href="home.php" role="button">Voltar</a>
     </form>
 </div>
 

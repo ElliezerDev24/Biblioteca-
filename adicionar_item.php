@@ -54,6 +54,9 @@ $categorias = $conn->query($sql);
             <input type="file" name="capa" class="form-control">
         </div>
         <button type="submit" class="btn btn-success">Salvar</button>
+
+        <a class="btn btn-danger" href="home.php" role="button">Voltar</a>
+                
         
     </form>
 </div>

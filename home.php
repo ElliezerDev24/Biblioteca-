@@ -24,6 +24,20 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 $resultado = $stmt->get_result();
+
+
+// Buscar os IDs dos itens no carrinho do usuário logado
+$carrinho = [];
+
+$sqlCarrinho = "SELECT id_item FROM carrinho WHERE id_usuario = ?";
+$stmtCarrinho = $conn->prepare($sqlCarrinho);
+$stmtCarrinho->bind_param("i", $_SESSION['id_usuario']);
+$stmtCarrinho->execute();
+$resultCarrinho = $stmtCarrinho->get_result();
+
+while ($row = $resultCarrinho->fetch_assoc()) {
+    $carrinho[] = $row['id_item'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -52,17 +66,16 @@ $resultado = $stmt->get_result();
                         <a href="detalhes.php?id=<?= $item['id'] ?>" class="btn btn-primary btn-sm">Detalhes</a>
                         <a href="editar_item.php?id=<?= $item['id'] ?>" class="btn btn-warning btn-sm">Editar</a>
                         <a href="actions/remover_item.php?id=<?= $item['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Remover este item?')">Remover</a>
-                        
-                        <!-- Botão Favoritar -->
-                        <a href="actions/favoritar.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-warning btn-sm w-100 mb-1">
-                        <?php echo in_array($item['id'], $favoritos) ? 'Desfavoritar' : 'Favoritar'; ?></a>
 
+                        <!-- Botão Favoritar -->
+                        <a href="actions/favoritar.php?id=<?= $item['id'] ?>" class="btn btn-outline-warning btn-sm w-100 mb-1">
+                            <?= in_array($item['id'], $favoritos) ? 'Desfavoritar' : 'Favoritar'; ?>
+                        </a>
 
                         <!-- Botão Carrinho -->
-                        <form action="actions/adicionar_carrinho.php" method="POST" class="d-inline">
-                            <input type="hidden" name="id_item" value="<?= $item['id'] ?>">
-                            <button type="submit" class="btn btn-outline-secondary btn-sm">Adicionar ao Carrinho</button>
-                        </form>
+                        <a href="actions/adicionar_carrinho.php?id=<?= $item['id'] ?>" class="btn btn-outline-success btn-sm w-100">
+                            <?= in_array($item['id'], $carrinho) ? 'Remover do Carrinho' : 'Adicionar ao Carrinho'; ?>
+                        </a>
                     </div>
                 </div>
             </div>
