@@ -30,7 +30,8 @@ while ($row = $result->fetch_assoc()) {
 <body>
 <h2 class="mb-4">Carrinho de Itens</h2>
 
-<form method="POST" action="">
+<form method="POST" action="actions/salvar_operacao.php">
+
     <div class="mb-3">
         <label class="form-label">Destinatário</label>
         <input type="text" name="destinatario" class="form-control" required>
